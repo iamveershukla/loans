@@ -1,0 +1,50 @@
+<H1>New User Registration</H1>
+
+<div class="container">
+
+  <form (ngSubmit)="!userForm.invalid && saveUser()" #userForm="ngForm">
+    <fieldset class="form-group">
+      <label>First Name</label>
+      <input type="text" #firstName="ngModel" [(ngModel)]="user.firstName" class="form-control" name="firstName"
+        required="required">
+      <div class="alert alert-warning" *ngIf="firstName.dirty && firstName.invalid">Enter First Name</div>
+    </fieldset>
+
+    <fieldset class="form-group">
+      <label>Last Name</label>
+      <input type="text" #lastName="ngModel" [(ngModel)]="user.lastName" class="form-control" name="lastName"
+        required="required">
+      <div class="alert alert-warning" *ngIf="lastName.dirty && lastName.invalid">Enter Last Name</div>
+    </fieldset>
+
+    <fieldset class="form-group">
+      <label>PAN Card</label>
+      <input type="text" #panCard="ngModel" [(ngModel)]="user.panCard" class="form-control" name="panCard"
+        required="required" minlength="10" maxlength="10">
+      <div class="alert alert-warning" *ngIf="panCard.dirty && panCard.invalid">Enter valid PAN Card number of 10 characters</div>
+    </fieldset>
+
+    <fieldset class="form-group">
+      <label>Email</label>
+      <input type="email" #email="ngModel" [(ngModel)]="user.email" class="form-control" name="email"
+        required="required">
+      <div class="alert alert-warning" *ngIf="email.dirty && email.invalid">Enter valid email id</div>
+    </fieldset>
+
+    <fieldset class="form-group">
+      <label>Username</label>
+      <input type="text" #username="ngModel" [(ngModel)]="user.username" class="form-control" name="username"
+        required="required" minlength="1">
+      <div class="alert alert-warning" *ngIf="username.dirty && username.invalid">Enter User Name</div>
+    </fieldset>
+
+    <fieldset class="form-group">
+      <label>Password</label>
+      <input type="password" #password="ngModel" [(ngModel)]="user.password" class="form-control"
+        name="password" required="required" minlength="8">
+      <div class="alert alert-warning" *ngIf="password.dirty && password.invalid">Enter atleast 8 characters in Password</div>
+    </fieldset>
+
+    <button type="submit" class="btn btn-success">Save</button>
+  </form>
+</div>

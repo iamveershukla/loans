@@ -1,0 +1,32 @@
+<h1> Your Loans </h1>
+
+<div class="alert alert-success" *ngIf='message'>{{message}}</div>
+
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Loan Id</th>
+        <th>Loan Type</th>
+        <th>Amount</th>
+        <th>EMI</th>
+        <th>Installments</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let loan of loans">
+        <td>{{loan.id}}</td>
+        <td>{{loan.loanType}}</td>
+        <td>{{loan.loanAmount}}</td>
+        <td>{{loan.emi}}</td>
+        <td>{{loan.installments}}</td>
+      </tr>
+     </tbody>
+
+  </table>
+
+  <div class="row">
+      <button (click)=applyNewLoan() class="btn btn-success">Apply New Loan</button>
+  </div>
+
+</div>

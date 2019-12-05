@@ -1,0 +1,58 @@
+<H1>Loan Application</H1>
+<div class="container">
+
+    <form (ngSubmit)="!loanForm.invalid" #loanForm="ngForm">
+
+        <fieldset class="form-group">
+            <label>Loan Type</label>
+            <select type="text" #loanType="ngModel" [(ngModel)]="loan.loanType" class="form-control" name="loanType"
+                required="required">
+                <option *ngFor="let type of ['Home Loan', 'Personal Loan', 'Car Loan', 'Two Wheeler Loan' ]">
+                    {{ type }}
+                </option>
+            </select>
+            <div class="alert alert-warning" *ngIf="loanType.dirty && loanType.invalid">Select Loan Type</div>
+        </fieldset>
+        <fieldset class="form-group">
+            <label>Loan Amount</label>
+            <input type="number" #loanAmount="ngModel" [(ngModel)]="loan.loanAmount" class="form-control"
+                name="loanAmount" required="required">
+            <div class="alert alert-warning" *ngIf="loanAmount.dirty && loanAmount.invalid">Enter Loan Amount</div>
+        </fieldset>
+        <fieldset class="form-group">
+            <label>Tenure in Years</label>
+            <select type="number" #tenure="ngModel" [(ngModel)]="loan.tenure" class="form-control" name="tenure"
+                required="required">
+                <option *ngFor="let tenure of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]">
+                        {{ tenure }}
+                </option>
+
+            </select>
+            <div class="alert alert-warning" *ngIf="tenure.dirty && tenure.invalid">Enter Tenure in Years</div>
+        </fieldset>
+
+        <div class="row"  *ngIf="message != '' && status == 'Approved'">
+            <p class="alert alert-success">
+                {{message}}
+            </p>
+        </div>
+        <div class="row"  *ngIf="message != '' && status == 'Rejected'">
+            <p class="alert alert-warning">
+                {{message}}
+            </p>
+        </div>
+
+        <div class="btn-toolbar" role="toolbar">
+            <div class="btn-group mr-2" role="group">
+                <button type="button" (click)="getLoanElegibility()" class="btn btn-primary">Check Elegibility</button>
+            </div>
+            <div class="btn-group mr-2" role="group">
+                <button type="button" (click)="resetApplication(); loanForm.reset()" class="btn btn-primary">Reset</button>
+            </div>
+            <div class="btn-group mr-2" role="group">
+                <button type="button" (click)="applyNewLoan()" class="btn btn-primary">Apply Loan</button>
+            </div>
+        </div>
+
+    </form>
+</div>
