@@ -1,0 +1,68 @@
+- name: Copy driver files to application server
+  copy:
+    src: "{{item.name}}.tar"
+    dest: "/opt/app/packages"
+    owner: "{{ansible_user}}"
+    group: "{{ansible_user}}"
+    mode: 0755
+  with_items: "{{app_driver_files}}"
+  tags: drivers
+
+- name: Create wildfly-xxx/modules/domain directories
+  file:
+    path: "{{wildfly_home_path}}/modules/{{item.domain}}"
+    state: directory
+    owner: "{{ wildfly_user }}"
+    group: "{{ wildfly_group }}"
+    recurse: yes
+  with_items: "{{app_driver_files}}"
+  tags: drivers
+
+- name: Copy drivers in /opt/wildfly-xxx/modules folder
+  unarchive:
+    src: "/opt/app/packages/{{item.name}}.tar"
+    dest: "{{wildfly_home_path}}/modules/{{item.domain}}/"
+    owner: "{{wildfly_user}}"
+    creates: "{{wildfly_home_path}}/modules/{{item.domain}}/{{item.name}}"
+    group: "{{wildfly_group}}"
+    mode: 0755
+    remote_src: yes
+  with_items: "{{app_driver_files}}"
+  tags: drivers
+
+- name: Create /opt/app/scripts directory
+  file:
+    path: "/opt/app/scripts"
+    state: directory
+    owner: "{{ wildfly_user }}"
+    group: "{{ wildfly_group }}"
+    recurse: yes
+  tags: prerequisites
+
+- name: Create Jboss cli scripts. These scripts will be executed to configure standalone.xml file 
+  template:
+    src: "scripts/{{item.name}}.j2"
+    dest: "/opt/app/scripts/{{item.name}}"
+    owner: "{{wildfly_user}}"
+    group: "{{wildfly_group}}"
+    mode: u=rwx,g=rx,o=r
+  with_items: "{{jboss_cli_scripts}}"
+  tags: configure
+
+- name: WildFly | Execute Jboss Cli scripts to update standalone.xml file
+  shell: >
+    {{wildfly_home_path}}/bin/jboss-cli.sh -c --controller=localhost:{{9990 + jboss_socket_binding_port_offset}} --file=/opt/app/scripts/{{item.name}} 
+    && touch {{wildfly_home_path}}/standalone-{{env}}/log/{{item.name}}.provisioned
+  with_items: "{{jboss_cli_scripts}}"
+  args:
+    creates: "{{wildfly_home_path}}/standalone-{{env}}/log/{{item.name}}.provisioned"
+  notify: restart wildfly systemd
+  tags: configure
+
+- name: Update standalone.xml file permissions
+  file:
+    path: "{{wildfly_home_path}}/standalone-{{env}}/configuration/standalone.xml"
+    owner: "{{wildfly_user}}"
+    group: "{{wildfly_group}}"
+    mode: u=rwx,g=x,o=x
+  tags: configure

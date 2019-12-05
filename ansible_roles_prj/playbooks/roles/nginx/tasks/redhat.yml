@@ -1,0 +1,6 @@
+---
+
+- name: Nginx | Install
+  include: install_redhat.yml
+  tags:
+    - install

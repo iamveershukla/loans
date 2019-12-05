@@ -1,0 +1,40 @@
+---
+
+- name: nginx | Ensure nginx group exists
+  group:
+    name: "{{ nginx_group }}"
+    state: present
+  tags: prerequisites
+
+- name: nginx | Ensure nginx user exists
+  user:
+    name: "{{ nginx_user }}"
+    shell: /bin/nologin
+    group: "{{ nginx_group }}"
+    state: present
+  tags: prerequisites
+
+- name: Ensure directory /opt/web-app/packages exists
+  file:
+    path: /opt/web-fda/packages
+    state: directory
+    owner: "{{nginx_user}}"
+    group: "{{nginx_group}}"
+    mode: 0755
+  tags: prerequisites
+
+- name: Copy Wildfly packages
+  copy:
+    src: "{{web_server_rpm}}"
+    dest: "/opt/web-app/packages/"
+    owner: "{{nginx_user}}"
+    group: "{{nginx_group}}"
+    mode: 0755
+  tags: install
+
+- name: Install nginx on RedHat based systems
+  yum:
+    name: "/opt/web-app/packages/{{web_server_rpm}}"
+    state: present
+  when: ansible_pkg_mgr == "yum"
+  tags: install

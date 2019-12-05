@@ -1,0 +1,57 @@
+---
+- name: Create standalone-xxx directory
+  file:
+    path: "{{wildfly_home_path}}/standalone-{{env}}"
+    state: directory
+    owner: "{{ wildfly_user }}"
+    group: "{{ wildfly_group }}"
+    recurse: yes
+  tags: profile
+
+- name: WildFly | Copy contents of standalone directory in standalone-xxx directory
+  command: "{{ item }}"
+  with_items:
+    - cp -r "{{wildfly_home_path}}/standalone/configuration" "{{wildfly_home_path}}/standalone-{{env}}/"
+    - cp -r "{{wildfly_home_path}}/standalone/deployments" "{{wildfly_home_path}}/standalone-{{env}}/"
+    - cp -r "{{wildfly_home_path}}/standalone/lib" "{{wildfly_home_path}}/standalone-{{env}}/"
+    - cp -r "{{wildfly_home_path}}/standalone/tmp" "{{wildfly_home_path}}/standalone-{{env}}/"
+    - touch "{{wildfly_home_path}}/standalone-{{env}}/log/standalone-{{env}}.provisioned"
+  args:
+    creates: "{{wildfly_home_path}}/standalone-{{env}}/log/standalone-{{env}}.provisioned"
+  tags: profile
+
+- name: WildFly | Change ownership of standalone-xxx folder
+  command: "{{ item }}"
+  with_items:
+    - chown -R "{{wildfly_user}}:{{wildfly_group}}" "{{wildfly_home_path}}/standalone-{{env}}"
+    - touch "{{wildfly_home_path}}/standalone-{{env}}/log/{{wildfly_user}}.ownership.provisioned"
+  args:
+    creates: "{{wildfly_home_path}}/standalone-{{env}}/log/{{wildfly_user}}.ownership.provisioned"
+  tags: profile
+
+- name: Create standalone-xxx.conf file in /opt/wildfly-xxx/bin directory
+  template:
+    src: "{{app_server_version}}/standalone.conf.j2"
+    dest: "{{wildfly_home_path}}/bin/standalone-{{env}}.conf"
+    owner: "{{wildfly_user}}"
+    group: "{{wildfly_group}}"
+    mode: u=rw,g=rw,o=r
+  tags: profile
+
+- name: Create standalone-xxx.sh file in /opt/wildfly-xxx/bin directory
+  template:
+    src: "{{app_server_version}}/standalone.sh.j2"
+    dest: "{{wildfly_home_path}}/bin/standalone-{{env}}.sh"
+    owner: "{{wildfly_user}}"
+    group: "{{wildfly_group}}"
+    mode: u=rwx,g=rx,o=r
+  tags: profile
+
+- name: Update standalone.xml file with standalone-full.xml file in /opt/wildfly-xxx/standalone-xxx/configuration directory
+  template:
+    src: "{{app_server_version}}/standalone-full.xml.j2"
+    dest: "{{wildfly_home_path}}/standalone-{{env}}/configuration/standalone.xml"
+    owner: "{{wildfly_user}}"
+    group: "{{wildfly_group}}"
+    mode: u=rwx,g=rx,o=r
+  tags: profile

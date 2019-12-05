@@ -1,0 +1,6 @@
+#  Add Microsoft SQL Server JDBC driver
+/subsystem=datasources/jdbc-driver=mssql_driver:add( \
+    driver-name=mssql_driver, \
+    driver-module-name=com.microsoft.sqlserver, \
+    driver-datasource-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver\
+)

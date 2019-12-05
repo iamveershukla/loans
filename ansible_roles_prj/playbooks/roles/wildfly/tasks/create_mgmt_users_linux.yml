@@ -1,0 +1,13 @@
+---
+- name: Create management users
+  shell: >
+    {{wildfly_home_path}}/bin/add-user.sh -sc {{wildfly_home_path}}/standalone-{{env}}/configuration/ -s
+    {{ item.name }} {{ item.password }} && touch {{wildfly_home_path}}/standalone-{{env}}/log/mgmt-user.{{ item.name }}.provisioned
+  with_items: "{{ wildfly_management_users }}"
+  become: True
+  become_user: '{{ wildfly_user }}'
+  args:
+    creates: "{{wildfly_home_path}}/standalone-{{env}}/log/mgmt-user.{{ item.name }}.provisioned"
+  when: wildfly_management_users | length > 0
+  no_log: True
+  tags: users
