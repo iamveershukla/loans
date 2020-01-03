@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: credit-rating-service
+  labels:
+    app: credit-rating
+    tier: app
+spec:
+  # comment or delete the following line if you want to use a LoadBalancer
+  type: ClusterIP
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: credit-rating
+    tier: app

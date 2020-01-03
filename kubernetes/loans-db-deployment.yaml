@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loans-db
+spec:
+  selector:
+    matchLabels:
+      app: loans-db
+      tier: db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: loans-db
+        tier: db
+    spec:
+      containers:
+      - name: loans-db
+        image: iamveershukla/loans-db:1.0
+        resources:
+          requests:
+            cpu: 1
+            memory: 2Gi
+        env:
+          - name: ACCEPT_EULA
+            value: "Y"
+          - name: SA_PASSWORD
+            value: "P@ssc0d3"
+        ports:
+        - containerPort: 1433
