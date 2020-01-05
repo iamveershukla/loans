@@ -12,7 +12,7 @@ spec:
     metadata:
       labels:
         app: loans-ui
-        tier: webd
+        tier: web
     spec:
       containers:
       - name: loans-ui
