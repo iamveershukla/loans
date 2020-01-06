@@ -25,7 +25,7 @@ import com.devops.coe.jwt.JwtTokenUtil;
 import com.devops.coe.jwt.JwtUserDetails;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/jwt")
 public class JwtAuthenticationRestController {
 

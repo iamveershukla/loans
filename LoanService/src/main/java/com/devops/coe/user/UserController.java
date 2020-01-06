@@ -12,7 +12,7 @@ import com.devops.coe.loans.services.CreditRatingService;
 
 @RestController
 @RequestMapping("/api/v1/users")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
 public class UserController {
 	
 	private ApplicationUserRepository applicationUserRepository;

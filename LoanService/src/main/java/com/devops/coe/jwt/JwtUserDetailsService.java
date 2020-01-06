@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 

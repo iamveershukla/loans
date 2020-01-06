@@ -10,12 +10,14 @@
 	</parent>
 	<groupId>com.devops.coe</groupId>
 	<artifactId>credit-rating</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>CreditRatingService</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Credit Rating Service</description>
 
 	<properties>
 		<java.version>1.8</java.version>
+		<start-class>com.devops.coe.creditrating.CreditRatingServiceApplication</start-class>
+		<skipTests>true</skipTests>
 	</properties>
 
 	<dependencies>
@@ -45,6 +47,19 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+                	<execution>
+                    	<goals>
+                        	<goal>repackage</goal>
+                    	</goals>
+                    	<configuration>
+                    		<classifier>spring-boot</classifier>
+                    		<mainClass>
+                    			com.devops.coe.creditrating.CreditRatingServiceApplication
+                    		</mainClass>                    	
+                    	</configuration>
+                	</execution>
+            	</executions>
 			</plugin>
 		</plugins>
 	</build>

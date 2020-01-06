@@ -31,7 +31,7 @@ import com.devops.coe.user.ApplicationUsers;
 
 @RestController
 @RequestMapping("/api/v1/loans")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin("*")
 public class LoansController {
 	
 	@Autowired
