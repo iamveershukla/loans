@@ -17,6 +17,7 @@ spec:
       containers:
       - name: loans-ui
         image: iamveershukla/loans-ui:1.0
+        imagePullPolicy: Always
         resources:
           requests:
             cpu: 100m

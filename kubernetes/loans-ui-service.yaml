@@ -4,7 +4,7 @@ metadata:
   name: loans-ui-service
   labels:
     app: loans-ui
-    tier: webd
+    tier: web
 spec:
   type: LoadBalancer
   ports:
