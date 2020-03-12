@@ -1,0 +1,13 @@
+---
+
+# Send notifications
+
+- name: Send notification message via Slack all options
+  slack:
+    token: TV79R7L7N/BV7BG718C/IGTldpgxTalMCpYMjY1evXPr
+    msg: 'Hello Veer'
+    channel: '#scandinavia'
+    username: 'Veer'
+    link_names: 0
+    parse: 'none'
+  delegate_to: localhost
