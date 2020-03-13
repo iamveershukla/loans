@@ -13,14 +13,17 @@ def sendEmail():
 
     # set mail parameters
     try:
-        domain          = config.get('email', 'email.domain')
-        port            = config.get('email', 'email.port')
-        mailId          = config.get('email', 'email.mailid')
-        mailPassword    = sys.argv[1]
-        toMailId        = config.get('email', 'email.tomailid')
-        subject         = config.get('email', 'email.subject')
-        message         = config.get('email', 'email.message')
-        signature       = config.get('email', 'email.signature')
+        domain              = config.get('email', 'email.domain')
+        port                = config.get('email', 'email.port')
+        mailId              = config.get('email', 'email.mailid')
+        if len(sys.argv) > 1:
+            mailPassword    = sys.argv[1]
+        else:
+            mailPassword    = config.get('email', 'email.mailPassword')
+        toMailId            = config.get('email', 'email.tomailid')
+        subject             = config.get('email', 'email.subject')
+        message             = config.get('email', 'email.message')
+        signature           = config.get('email', 'email.signature')
     except configparser.NoSectionError:
         print('Check daemon.properties file and email section the file')
         return False
