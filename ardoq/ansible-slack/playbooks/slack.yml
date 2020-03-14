@@ -1,8 +1,10 @@
 ---
 # file: slack.yml
 - hosts: localhost
-  vars_files: 
-    - "../environments/dev/slack_vars.yml"
+  vars: 
+    token: TV79R7L7N/BV7BG718C/IGTldpgxTalMCpYMjY1evXPr
+    channel: '#scandinavia'
+    username: 'Veer'
   tasks:
   - import_role:
       name: "slack"
