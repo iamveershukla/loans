@@ -1,0 +1,45 @@
+---
+- name: WildFly | Create WildFly config paths
+  file:
+    path: "{{wildfly_conf_path}}"
+    state: directory
+    owner: "{{ wildfly_user }}"
+    group: "{{ wildfly_group }}"
+    recurse: yes
+  tags: prerequisites
+
+- name: WildFly | Copy wildfly config
+  template:
+    src: "{{app_server_version}}/systemd/wildfly.conf"
+    dest: "{{wildfly_conf_path}}/{{app_service_name}}.conf"
+    mode: u=rw,g=rw,o=r
+    owner: "{{ wildfly_user }}"
+    group: "{{ wildfly_group }}"
+  notify: restart wildfly systemd
+  tags: profile
+
+- name: Create launch-xxx.sh file in opt/wildfly-xxx/bin directory
+  template:
+    src: "{{app_server_version}}/systemd/launch.sh.j2"
+    dest: "{{wildfly_home_path}}/bin/launch-{{env}}.sh"
+    owner: "{{wildfly_user}}"
+    group: "{{wildfly_group}}"
+    mode: u=rwx,g=rwx,o=r
+  tags: profile
+
+- name: Create wildfly-xxx.service file in /etc/systemd/system directory
+  template:
+    src: "{{app_server_version}}/systemd/wildfly.service.j2"
+    dest: "/etc/systemd/system/{{app_service_name}}.service"
+    owner: "{{wildfly_user}}"
+    group: "{{wildfly_group}}"
+    mode: u=rwx,g=rx,o=r
+  tags: profile
+
+- name: WildFly | Manage service
+  systemd:
+    name: "{{app_service_name}}"
+    state: started
+    enabled: true
+    daemon_reload: yes
+  tags: profile

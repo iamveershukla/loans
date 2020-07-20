@@ -1,0 +1,31 @@
+---
+## Owner
+wildfly_user: wildfly
+wildfly_group: wildfly
+
+## start on boot
+wildfly_service_enabled: True
+
+## current state: started, stopped
+wildfly_service_state: started
+
+## Files & Paths
+wildfly_conf_path: "/etc/wildfly"
+wildfly_install_path: "/opt"
+wildfly_home_path: "{{ wildfly_install_path }}/{{app_server_link}}"
+wildfly_log_file_path: "{{ wildfly_home_path }}/standalone-{{env}}/log"
+wildfly_running_configuration_file: "{{ wildfly_home_path }}/bin/standalone-{{env}}.conf"
+
+## Network
+wildfly_bind: 0.0.0.0
+
+## Management
+wildfly_management_users: 
+  - name: administrator
+    password: passw0rd
+# wildfly_management_password: "{{vault_wildfly_management_password}}"
+
+# FDA JBOSS bind address
+jboss_bind_address_management: 0.0.0.0
+jboss_bind_address_public: 0.0.0.0
+jboss_bind_address_unsecure: 0.0.0.0

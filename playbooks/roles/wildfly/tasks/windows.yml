@@ -1,0 +1,14 @@
+---
+
+# create a directory and Copy packages in target servers
+
+- name: Create directory structure
+  win_file:
+    path: C:\app\packages\app
+    state: directory
+
+- name: Create appserver.conf file
+  win_file:
+    path: C:\app\packages\app\appserver.conf
+    state: touch
+

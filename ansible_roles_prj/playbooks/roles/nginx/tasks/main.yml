@@ -1,0 +1,13 @@
+---
+
+- name: Install nginx and configure Webserver in RedHat based systems.
+  block:
+    - include_tasks: redhat.yml
+  when: ansible_os_family == "RedHat"
+  become: yes
+  become_method: sudo
+
+- name: Install nginx in a Windows based systems.
+  block:
+    - include_tasks: windows.yml
+  when: ansible_os_family == "Windows"

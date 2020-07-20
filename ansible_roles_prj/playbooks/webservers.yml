@@ -1,0 +1,9 @@
+---
+# file: webservers.yml
+- hosts: webservers
+  vars_files: 
+    - "~/ansible_roles_prj/environments/{{org_name}}/{{env}}/vault.yml"
+    - "~/ansible_roles_prj/environments/{{org_name}}/{{env}}/web_vars"
+  tasks:
+  - import_role:
+      name: "{{web_server}}"

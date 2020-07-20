@@ -1,0 +1,8 @@
+---
+
+# This playbook calls webservers.yml, appservers.yml, and deploy_app.yml for configuring webserver, appservers and deploying application ear files.
+- import_playbook: webservers.yml
+  tags: webserver
+
+- import_playbook: appservers.yml
+  tags: appserver

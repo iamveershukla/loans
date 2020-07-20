@@ -1,0 +1,61 @@
+---
+
+- name: WildFly | Ensure WildFly group exists
+  group:
+    name: "{{ wildfly_group }}"
+    state: present
+  tags: prerequisites
+
+- name: WildFly | Ensure WildFly user exists
+  user:
+    name: "{{ wildfly_user }}"
+    shell: /bin/nologin
+    group: "{{ wildfly_group }}"
+    state: present
+  tags: prerequisites
+
+- name: Ensure directory /opt/app/packages exists
+  file:
+    path: /opt/app/packages
+    state: directory
+    owner: "{{ansible_user}}"
+    group: "{{ansible_user}}"
+    mode: 0755
+  tags: prerequisites
+
+- name: Copy Wildfly packages
+  copy:
+    src: "{{app_server}}-{{app_server_version}}.zip"
+    dest: "/opt/app/packages/"
+    owner: "{{ansible_user}}"
+    group: "{{ansible_user}}"
+    mode: 0755
+  tags: prerequisites
+
+- name: Install Wildfly on RedHat  based systems
+  unarchive:
+    src: "/opt/app/packages/{{app_server}}-{{app_server_version}}.zip"
+    dest: "{{wildfly_install_path}}"
+    owner: "{{wildfly_user}}"
+    creates: "{{wildfly_install_path}}/{{app_server}}-{{app_server_version}}"
+    group: "{{wildfly_group}}"
+    mode: 0755
+    remote_src: yes
+  tags: install
+
+- name: Create softlink for Wildfly installation folder
+  file:
+    src: "{{wildfly_install_path}}/{{app_server}}-{{app_server_version}}"
+    dest: "{{wildfly_install_path}}/{{app_server_link}}"
+    owner: "{{wildfly_user}}"
+    group: "{{wildfly_group}}"
+    state: link
+  tags: install
+
+- name: WildFly | Create log path
+  file:
+    path: "{{ wildfly_log_file_path }}"
+    state: directory
+    owner: "{{ wildfly_user }}"
+    group: "{{ wildfly_group }}"
+  tags: configure
