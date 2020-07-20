@@ -1,6 +1,0 @@
-ansible_user: ansibleadmin
-ansible_connection: winrm
-ansible_winrm_transport: certificate
-ansible_winrm_cert_pem: /home/username/.ssh/certificates/ansibleadmin/cert.pem
-ansible_winrm_cert_key_pem: /home/username/.ssh/certificates/ansibleadmin/cert_key.pem
-ansible_winrm_server_cert_validation: ignore

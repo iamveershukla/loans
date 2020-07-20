@@ -1,7 +1,0 @@
----
-
-- name: Delete scripts files containing environment information
-  file:
-    path: "/opt/app/scripts/{{item.name}}"
-    state: absent
-  with_items: "{{jboss_cli_scripts}}"

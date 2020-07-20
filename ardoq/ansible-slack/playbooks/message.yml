@@ -1,8 +1,0 @@
----
-# file: message.yml
-- hosts: localhost
-  vars:
-    download_link: 'https://drive.google.com/uc?export=download&id=1fQPNwD65XdbI3iu7ujCppxN7NWv9NUKL'
-  tasks:
-  - import_role:
-      name: "message"

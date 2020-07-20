@@ -1,7 +1,0 @@
----
-
-- import_playbook: message.yml
-  tags: message
-
-- import_playbook: slack.yml
-  tags: slack
